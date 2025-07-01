@@ -6,8 +6,12 @@ public class Email {
 
     public Email(String emailAddress) {
 
+        if (emailAddress == null || emailAddress.isBlank()) {
+            throw new IllegalArgumentException("Email address cannot be null or empty");
+        }
+
         if (!isValid(emailAddress)) {
-            throw new IllegalArgumentException("Email inválido: " + emailAddress);
+            throw new IllegalArgumentException("Invalid e-mail: " + emailAddress);
         }
 
         this.emailAddress = emailAddress;
@@ -20,16 +24,5 @@ public class Email {
 
     public String getEmailAddress() {
         return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    @Override
-    public String toString() {
-        return "Email{" +
-                "emailAddress='" + emailAddress + '\'' +
-                '}';
     }
 }

@@ -5,9 +5,15 @@ public class Phone {
     private String number;
 
     public Phone(String number) {
-        if (!isValid(number)) {
-            throw new IllegalArgumentException("Número de telefone inválido: " + number);
+
+        if (number == null || number.isEmpty()) {
+            throw new IllegalArgumentException("Phone number cannot be null or empty");
         }
+
+        if (!isValid(number)) {
+            throw new IllegalArgumentException("Invalid phone number: " + number);
+        }
+
         this.number = number;
     }
 
@@ -23,10 +29,4 @@ public class Phone {
         this.number = number;
     }
 
-    @Override
-    public String toString() {
-        return "Phone{" +
-                "number='" + number + '\'' +
-                '}';
-    }
 }
