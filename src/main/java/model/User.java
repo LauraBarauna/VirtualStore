@@ -56,7 +56,6 @@ public class User {
     }
 
     //Setters
-
     public void setName(String name) {
         this.name = name;
     }
@@ -71,5 +70,17 @@ public class User {
 
     public void setPhone(Phone phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email=" + email +
+                ", password='" + password + '\'' +
+                ", phone=" + phone +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

@@ -16,7 +16,9 @@ public class UserRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getName());
-            stmt.setString(user.);
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPhone());
+            stmt.setString(4, user.getPassword());
 
         } catch (SQLException e) {
             e.printStackTrace();
