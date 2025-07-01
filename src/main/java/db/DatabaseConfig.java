@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class DatabaseConfig {
 
-    private static final String PROPERTIES_FILE = "src/main/resources/.properties";
+    private static final String PROPERTIES_FILE = "D:/estudos/Spring/ProjetoLoja/src/main/resources/db.properties";
 
     public static Properties LoadProperties() {
         Properties props = new Properties();

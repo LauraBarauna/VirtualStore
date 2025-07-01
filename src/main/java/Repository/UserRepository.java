@@ -20,6 +20,8 @@ public class UserRepository {
             stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getPassword());
 
+            stmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

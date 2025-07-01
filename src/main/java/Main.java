@@ -1,3 +1,4 @@
+import Repository.UserRepository;
 import model.Email;
 import model.Phone;
 import model.User;
@@ -7,6 +8,7 @@ public class Main {
         Email email = new Email("laura@email.com");
         Phone phone = new Phone("47997574123");
         User user = new User("Laura", email, "lauralau12", phone);
-        System.out.println(user);
+        UserRepository userRepository = new UserRepository();
+        userRepository.addUser(user);
     }
 }

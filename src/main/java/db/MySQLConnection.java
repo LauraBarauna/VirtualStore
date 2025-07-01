@@ -11,9 +11,9 @@ public class MySQLConnection {
 
         Properties props = DatabaseConfig.LoadProperties();
 
-        String url = props.getProperty("url");
-        String user = props.getProperty("user");
-        String password = props.getProperty("password");
+        String url = props.getProperty("db.url");
+        String user = props.getProperty("db.user");
+        String password = props.getProperty("db.password");
 
         try {
             return DriverManager.getConnection(url, user, password);

@@ -48,7 +48,7 @@ public class User {
     }
 
     public String getPhone() {
-        return phone.toString();
+        return phone.getNumber();
     }
 
     public LocalDateTime getCreatedAt() {
