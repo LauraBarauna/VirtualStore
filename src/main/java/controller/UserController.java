@@ -20,7 +20,7 @@ public class UserController {
 
     public void showAllUsers() {
         try {
-            for (UserResponseDTO user : this.service.showAllUsers()) {
+            for (UserResponseDTO user : this.service.getAllUsers()) {
                 System.out.println(user);
             }
         } catch (RuntimeException e) {
@@ -30,7 +30,7 @@ public class UserController {
 
     public void showUserById(int id) {
         try {
-            System.out.println(this.service.findUserById(id));
+            System.out.println(this.service.getUserById(id));
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }

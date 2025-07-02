@@ -34,7 +34,7 @@ public class UserRepository {
     }
 
     // READ
-    public List<User> getAllUsers() {
+    public List<User> findAllUsers() {
         String sql = "SELECT id, name, email, phone FROM users";
         List<User> users = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class UserRepository {
         return null;
     }
 
-    public User getUserById(int id) {
+    public User findUserById(int id) {
         String sql = "SELECT id, name, email, phone FROM users WHERE id = ?";
 
         try (Connection conn = MySQLConnection.getConnection();
