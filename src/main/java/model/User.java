@@ -31,6 +31,7 @@ public class User {
         this.id = id;
     }
 
+
     // Getters
     public int getId() {
         return id;
