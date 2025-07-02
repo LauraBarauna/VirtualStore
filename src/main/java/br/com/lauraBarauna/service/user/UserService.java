@@ -1,12 +1,12 @@
-package service;
+package br.com.lauraBarauna.service.user;
 
-import dto.UserRequestDTO;
-import dto.UserResponseDTO;
-import model.Email;
-import model.Password;
-import model.Phone;
-import model.User;
-import repository.UserRepository;
+import br.com.lauraBarauna.dto.user.UserRequestDTO;
+import br.com.lauraBarauna.dto.user.UserResponseDTO;
+import br.com.lauraBarauna.model.common.Email;
+import br.com.lauraBarauna.model.common.Password;
+import br.com.lauraBarauna.model.common.Phone;
+import br.com.lauraBarauna.model.user.User;
+import br.com.lauraBarauna.repository.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

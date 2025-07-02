@@ -1,8 +1,8 @@
-package controller;
+package br.com.lauraBarauna.controller.user;
 
-import dto.UserRequestDTO;
-import dto.UserResponseDTO;
-import service.UserService;
+import br.com.lauraBarauna.dto.user.UserRequestDTO;
+import br.com.lauraBarauna.dto.user.UserResponseDTO;
+import br.com.lauraBarauna.service.user.UserService;
 
 public class UserController {
 

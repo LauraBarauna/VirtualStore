@@ -1,9 +1,9 @@
-package repository;
+package br.com.lauraBarauna.repository.user;
 
-import db.MySQLConnection;
-import model.Email;
-import model.Phone;
-import model.User;
+import br.com.lauraBarauna.db.MySQLConnection;
+import br.com.lauraBarauna.model.common.Email;
+import br.com.lauraBarauna.model.common.Phone;
+import br.com.lauraBarauna.model.user.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

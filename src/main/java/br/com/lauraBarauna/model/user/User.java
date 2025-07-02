@@ -1,4 +1,8 @@
-package model;
+package br.com.lauraBarauna.model.user;
+
+import br.com.lauraBarauna.model.common.Email;
+import br.com.lauraBarauna.model.common.Password;
+import br.com.lauraBarauna.model.common.Phone;
 
 import java.time.LocalDateTime;
 

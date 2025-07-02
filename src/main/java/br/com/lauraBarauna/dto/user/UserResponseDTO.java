@@ -1,6 +1,4 @@
-package dto;
-
-import java.time.LocalDateTime;
+package br.com.lauraBarauna.dto.user;
 
 public class UserResponseDTO {
 

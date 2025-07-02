@@ -1,4 +1,4 @@
-package model;
+package br.com.lauraBarauna.model.common;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

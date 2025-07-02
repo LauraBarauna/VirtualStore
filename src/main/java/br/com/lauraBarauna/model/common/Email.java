@@ -1,4 +1,4 @@
-package model;
+package br.com.lauraBarauna.model.common;
 
 public class Email {
 
