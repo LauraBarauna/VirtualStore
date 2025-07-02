@@ -6,28 +6,29 @@ public class User {
     private int id;
     private String name;
     private Email email;
-    private String password;
+    private Password password;
     private Phone phone;
     private LocalDateTime createdAt;
 
-    public User(String name, Email email, String password, Phone phone) {
+    public User(String name, Email email, Phone phone, int id) {
+        this.name = name;
+        this.email = email;
+        this.password = null;
+        this.phone = phone;
+        this.id = id;
+    }
+
+    public User(String name, Email email, Password password, Phone phone, int id) {
 
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password cannot be null or empty");
-        }
-
-        if (password.length() < 8 || password.length() > 16) {
-            throw new IllegalArgumentException("Password must be between 8 and 16 characters");
         }
 
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.id = id;
     }
 
     // Getters
@@ -44,7 +45,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return password.getHashedPassword();
     }
 
     public String getPhone() {
@@ -64,7 +65,7 @@ public class User {
         this.email = email;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 
