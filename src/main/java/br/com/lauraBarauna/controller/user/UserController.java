@@ -81,4 +81,22 @@ public class UserController {
         }
     }
 
+    public void loginUser(String email, String password) {
+        try {
+            this.service.loginUser(email, password);
+            System.out.println("User logged successfully!");
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void logoutUser() {
+        try {
+            this.service.logoutUser();
+            System.out.println("User logged successfully!");
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 }

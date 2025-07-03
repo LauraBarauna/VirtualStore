@@ -2,6 +2,7 @@ package br.com.lauraBarauna.repository.user;
 
 import br.com.lauraBarauna.db.MySQLConnection;
 import br.com.lauraBarauna.model.common.Email;
+import br.com.lauraBarauna.model.common.Password;
 import br.com.lauraBarauna.model.common.Phone;
 import br.com.lauraBarauna.model.user.User;
 
@@ -162,6 +163,31 @@ public class UserRepository {
             e.printStackTrace();
         }
     }
+
+    public User findUserByEmail(String email) {
+        String sql = "SELECT id, name, email, phone, password FROM users WHERE email = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Email emailObj = new Email(email);
+                    Phone phoneObj = new Phone(rs.getString("phone"));
+                    Password savedPassword =  Password.fromHashed(rs.getString("password"));
+                    String name = rs.getString("name");
+                    int id = rs.getInt("id");
+                    return new User(name, emailObj, savedPassword, phoneObj, id);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
 }

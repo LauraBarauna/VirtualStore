@@ -35,6 +35,13 @@ public class User {
         this.id = id;
     }
 
+    public boolean login(String rawPassword) {
+       if (this.password.matches(rawPassword)) {
+           return true;
+       }
+       return false;
+    }
+
 
     // Getters
     public int getId() {

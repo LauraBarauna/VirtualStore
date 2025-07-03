@@ -14,6 +14,7 @@ import java.util.List;
 public class UserService {
 
     private UserRepository repository = new UserRepository();
+    private List<User> loggedUsers = new ArrayList<>();
 
     public User dtoToEntity(UserRequestDTO dto) {
         Email email = new Email(dto.getEmail());
@@ -97,6 +98,22 @@ public class UserService {
             throw new RuntimeException("User with id " + id + " not found.");
         }
         this.repository.deleteUserById(id);
+    }
+
+    public void loginUser(String email, String password) {
+        User user = this.repository.findUserByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Email " + email + " not found.");
+        }
+        if (!user.login(password)) {
+            throw new RuntimeException("Invalid password.");
+        }
+
+        this.loggedUsers.add(user);
+    }
+
+    public void logoutUser() {
+        this.loggedUsers.clear();
     }
 
 }

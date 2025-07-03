@@ -15,6 +15,14 @@ public class Password {
         this.hashedPassword = encoder.encode(cleanPassword);
     }
 
+    private Password(String hashedPassword, boolean fromHashed) {
+        this.hashedPassword = hashedPassword;
+    }
+
+    public static Password fromHashed(String hashedPassword) {
+        return new Password(hashedPassword, true);
+    }
+
     public boolean matches(String rawPassword) {
         return encoder.matches(rawPassword, this.hashedPassword);
     }
