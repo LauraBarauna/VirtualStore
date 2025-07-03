@@ -14,9 +14,10 @@ public class Address {
     private String zipCode;
     private LocalDateTime createdAt;
 
-    public Address(int userId, String state, String city, String street, String number,
+    public Address(int id, int userId, String state, String city, String street, String number,
                    String complement, String neighborhood, String zipCode) {
 
+        setId(id);
         setUserId(userId);
         setState(state);
         setCity(city);
@@ -25,6 +26,13 @@ public class Address {
         setComplement(complement);
         setNeighborhood(neighborhood);
         setZipCode(zipCode);
+    }
+
+    public void setId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("User ID must be positive.");
+        }
+        this.id = id;
     }
 
     public void setUserId(int userId) {
