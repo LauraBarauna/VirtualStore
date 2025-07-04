@@ -14,12 +14,11 @@ import java.util.List;
 public class UserService {
 
     private UserRepository repository = new UserRepository();
-    private List<User> loggedUsers = new ArrayList<>();
 
     public User dtoToEntity(UserRequestDTO dto) {
         Email email = new Email(dto.getEmail());
         Phone phone = new Phone(dto.getPhone());
-        Password password = new Password(dto.getPassword());
+        Password password = Password.fromPlainText(dto.getPassword());
         return new User (dto.getName(), email, password, phone, 0);
     }
 
@@ -87,7 +86,7 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException("User with id " + id + " not found.");
         }
-        Password password = new Password(newPassword);
+        Password password = Password.fromPlainText(newPassword);
         user.setPassword(password);
         this.repository.updateUserPassword(user);
     }
@@ -100,8 +99,9 @@ public class UserService {
         this.repository.deleteUserById(id);
     }
 
-    public void loginUser(String email, String password) {
+    public UserResponseDTO loginUser(String email, String password) {
         User user = this.repository.findUserByEmail(email);
+
         if (user == null) {
             throw new RuntimeException("Email " + email + " not found.");
         }
@@ -109,11 +109,7 @@ public class UserService {
             throw new RuntimeException("Invalid password.");
         }
 
-        this.loggedUsers.add(user);
-    }
-
-    public void logoutUser() {
-        this.loggedUsers.clear();
+        return entityToDto(user);
     }
 
 }

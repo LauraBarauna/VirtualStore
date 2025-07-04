@@ -8,26 +8,27 @@ public class Password {
 
     private final String hashedPassword;
 
-    public Password(String cleanPassword) {
-        if (!isValid(cleanPassword)) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        this.hashedPassword = encoder.encode(cleanPassword);
-    }
-
-    private Password(String hashedPassword, boolean fromHashed) {
+    private Password(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
+    public static Password fromPlainText(String plainText) {
+        if (!isValid(plainText)) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        return new Password(encoder.encode(plainText));
+    }
+
     public static Password fromHashed(String hashedPassword) {
-        return new Password(hashedPassword, true);
+        return new Password(hashedPassword);
     }
 
     public boolean matches(String rawPassword) {
         return encoder.matches(rawPassword, this.hashedPassword);
     }
 
-    public boolean isValid(String rawPassword) {
+    private static boolean isValid(String rawPassword) {
         return rawPassword != null && rawPassword.length() >= 8 && rawPassword.length() <= 16;
     }
 

@@ -4,6 +4,8 @@ import br.com.lauraBarauna.dto.user.UserRequestDTO;
 import br.com.lauraBarauna.dto.user.UserResponseDTO;
 import br.com.lauraBarauna.service.user.UserService;
 
+import java.util.List;
+
 public class UserController {
 
     UserService service = new UserService();
@@ -81,22 +83,16 @@ public class UserController {
         }
     }
 
-    public void loginUser(String email, String password) {
+    public UserResponseDTO loginUser(String email, String password) {
         try {
-            this.service.loginUser(email, password);
+            UserResponseDTO dto = this.service.loginUser(email, password);
             System.out.println("User logged successfully!");
+            return dto;
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
+            return null;
         }
     }
 
-    public void logoutUser() {
-        try {
-            this.service.logoutUser();
-            System.out.println("User logged successfully!");
-        } catch (RuntimeException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
 
 }
