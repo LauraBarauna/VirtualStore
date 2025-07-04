@@ -28,10 +28,10 @@ public class User {
             throw new IllegalArgumentException("Name cannot be null or empty");
         }
 
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
+        setName(name);
+        setEmail(email);
+        setPassword(password);
+        setPhone(phone);
         this.id = id;
     }
 
@@ -70,18 +70,38 @@ public class User {
 
     //Setters
     public void setName(String name) {
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        }
+
         this.name = name;
     }
 
     public void setEmail(Email email) {
+
+        if (email == null) {
+            throw new IllegalArgumentException("E-mail cannot be null.");
+        }
+
         this.email = email;
     }
 
     public void setPassword(Password password) {
+
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null.");
+        }
+
         this.password = password;
     }
 
     public void setPhone(Phone phone) {
+
+        if (phone == null) {
+            throw new IllegalArgumentException("Phone cannot be null.");
+        }
+
         this.phone = phone;
     }
 
