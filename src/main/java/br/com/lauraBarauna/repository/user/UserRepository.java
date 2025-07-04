@@ -48,8 +48,8 @@ public class UserRepository {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
-                Email emailObj = new Email(email);
-                Phone phoneObj = new Phone(phone);
+                Email emailObj = Email.fromDatabase(email);
+                Phone phoneObj = Phone.fromDataBase(phone);
                 users.add(new User(name, emailObj, phoneObj, id));
             }
             return users;
@@ -71,8 +71,8 @@ public class UserRepository {
                     String name = rs.getString("name");
                     String email = rs.getString("email");
                     String phone = rs.getString("phone");
-                    Email emailObj = new Email(email);
-                    Phone phoneObj = new Phone(phone);
+                    Email emailObj = Email.fromDatabase(email);
+                    Phone phoneObj = Phone.fromDataBase(phone);
                     return new User(name, emailObj, phoneObj, id);
                 }
             }
@@ -173,8 +173,8 @@ public class UserRepository {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Email emailObj = new Email(email);
-                    Phone phoneObj = new Phone(rs.getString("phone"));
+                    Email emailObj = Email.fromDatabase(email);
+                    Phone phoneObj = Phone.fromDataBase(rs.getString("phone"));
                     Password savedPassword =  Password.fromHashed(rs.getString("password"));
                     String name = rs.getString("name");
                     int id = rs.getInt("id");

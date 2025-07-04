@@ -16,8 +16,8 @@ public class UserService {
     private UserRepository repository = new UserRepository();
 
     public User dtoToEntity(UserRequestDTO dto) {
-        Email email = new Email(dto.getEmail());
-        Phone phone = new Phone(dto.getPhone());
+        Email email = Email.from(dto.getEmail());
+        Phone phone = Phone.from(dto.getPhone());
         Password password = Password.fromPlainText(dto.getPassword());
         return new User (dto.getName(), email, password, phone, 0);
     }
@@ -66,7 +66,7 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException("User with id " + id + " not found.");
         }
-        Email email = new Email(newEmail);
+        Email email = Email.from(newEmail);
         user.setEmail(email);
         this.repository.updateUserEmail(user);
     }
@@ -76,7 +76,7 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException("User with id " + id + " not found.");
         }
-        Phone phone = new Phone(newPhone);
+        Phone phone = Phone.from(newPhone);
         user.setPhone(phone);
         this.repository.updateUserPhone(user);
     }

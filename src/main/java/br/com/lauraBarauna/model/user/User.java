@@ -17,17 +17,11 @@ public class User {
     public User(String name, Email email, Phone phone, int id) {
         this.name = name;
         this.email = email;
-        this.password = null;
         this.phone = phone;
         this.id = id;
     }
 
     public User(String name, Email email, Password password, Phone phone, int id) {
-
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-
         setName(name);
         setEmail(email);
         setPassword(password);

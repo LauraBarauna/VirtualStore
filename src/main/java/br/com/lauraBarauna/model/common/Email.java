@@ -5,19 +5,25 @@ public class Email {
     private String emailAddress;
 
     public Email(String emailAddress) {
-
-        if (emailAddress == null || emailAddress.isBlank()) {
-            throw new IllegalArgumentException("Email address cannot be null or empty");
-        }
-
-        if (!isValid(emailAddress)) {
-            throw new IllegalArgumentException("Invalid e-mail: " + emailAddress);
-        }
-
         this.emailAddress = emailAddress;
     }
 
-    private boolean isValid(String emailAddress) {
+    public static Email from (String rawEmail) {
+        if (rawEmail == null || rawEmail.isBlank()) {
+            throw new IllegalArgumentException("Email address cannot be null or empty");
+        }
+
+        if (!isValid(rawEmail)) {
+            throw new IllegalArgumentException("Invalid e-mail: " + rawEmail);
+        }
+        return new Email(rawEmail);
+    }
+
+    public static Email fromDatabase (String storedEmail) {
+        return new Email(storedEmail);
+    }
+
+    private static boolean isValid(String emailAddress) {
         String regex = "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$";
         return emailAddress.matches(regex);
     }

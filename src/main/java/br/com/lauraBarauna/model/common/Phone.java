@@ -5,19 +5,25 @@ public class Phone {
     private String number;
 
     public Phone(String number) {
-
-        if (number == null || number.isEmpty()) {
-            throw new IllegalArgumentException("Phone number cannot be null or empty");
-        }
-
-        if (!isValid(number)) {
-            throw new IllegalArgumentException("Invalid phone number: " + number);
-        }
-
         this.number = number;
     }
 
-    private boolean isValid(String number) {
+    public static Phone from (String rawPhone) {
+        if (rawPhone == null || rawPhone.isEmpty()) {
+            throw new IllegalArgumentException("Phone number cannot be null or empty");
+        }
+
+        if (!isValid(rawPhone)) {
+            throw new IllegalArgumentException("Invalid phone number: " + rawPhone);
+        }
+        return new Phone(rawPhone);
+    }
+
+    public static Phone fromDataBase (String storedPhone) {
+        return Phone.from(storedPhone);
+    }
+
+    private static boolean isValid(String number) {
         return number != null && number.matches("^\\d{11}$");
     }
 
