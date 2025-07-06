@@ -82,6 +82,12 @@ public class Address {
     }
 
     // Getters
+
+
+    public int getId() {
+        return id;
+    }
+
     public int getUserId() {
         return userId;
     }

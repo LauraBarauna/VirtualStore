@@ -1,6 +1,7 @@
 package br.com.lauraBarauna.controller.address;
 
 import br.com.lauraBarauna.dto.address.AddresRequestDTO;
+import br.com.lauraBarauna.dto.address.AddressResponseDTO;
 import br.com.lauraBarauna.service.address.AddressService;
 
 public class AddressController {
@@ -18,5 +19,15 @@ public class AddressController {
             System.out.println("Error: " + e.getMessage());
         }
 
+    }
+
+    public void showAllUsersAddress(int userId) {
+        try {
+            for (AddressResponseDTO address : this.service.getAllUserAddress(userId)) {
+                System.out.println(address);
+            }
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
