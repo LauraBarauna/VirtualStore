@@ -30,4 +30,16 @@ public class AddressController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    public void updateAddress(int userId, String state, String city, String street, String number,
+                              String complement, String neighborhood, String zipCode, int addressId) {
+        AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode);
+
+        try {
+            this.service.updateAddress(dto, addressId);
+            System.out.println("Address updated successfully!");
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }

@@ -46,7 +46,8 @@ public class Main {
                             System.out.println("O que deseja fazer:");
                             System.out.println("101 - Criar Endereço");
                             System.out.println("102 - Listar Enderecos");
-                            System.out.println("103 - Deslogar");
+                            System.out.println("103 - Atualizar Endereco");
+                            System.out.println("104 - Deslogar");
 
                             opcaoUsuario = scanner.nextInt();
                             scanner.nextLine();
@@ -82,6 +83,28 @@ public class Main {
                                     break;
 
                                 case 103:
+                                    System.out.println("Estado: ");
+                                    estado = scanner.nextLine();
+                                    System.out.println("Cidade: ");
+                                    cidade = scanner.nextLine();
+                                    System.out.println("Rua: ");
+                                    rua = scanner.nextLine();
+                                    System.out.println("Número: ");
+                                    numero = scanner.nextLine();
+                                    System.out.println("Complemento: ");
+                                    complemento = scanner.nextLine();
+                                    System.out.println("Bairro: ");
+                                    bairro = scanner.nextLine();
+                                    System.out.println("CEP: ");
+                                    cep = scanner.nextLine();
+                                    System.out.println("Address ID: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    addressController.updateAddress(loggedUser.getId(), estado, cidade, rua, numero,
+                                            complemento, bairro, cep, id);
+                                    break;
+
+                                case 104:
                                     System.out.println("Deslogando...\n");
                                     loggedUser = null;
                                     break;

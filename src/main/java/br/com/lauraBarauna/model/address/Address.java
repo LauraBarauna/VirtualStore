@@ -14,18 +14,66 @@ public class Address {
     private String zipCode;
     private LocalDateTime createdAt;
 
-    public Address(int id, int userId, String state, String city, String street, String number,
+    private Address(int id, int userId, String state, String city, String street, String number,
                    String complement, String neighborhood, String zipCode) {
 
         this.id = id;
-        setUserId(userId);
-        setState(state);
-        setCity(city);
-        setStreet(street);
-        setNumber(number);
-        setComplement(complement);
-        setNeighborhood(neighborhood);
-        setZipCode(zipCode);
+        this.userId = userId;
+        this.state = state;
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.zipCode = zipCode;
+    }
+
+    public static Address fromCreation(int id, int userId, String state, String city, String street, String number,
+                                       String complement, String neighborhood, String zipCode) {
+
+        if (userId <= 0) {
+            throw new IllegalArgumentException("User ID must be positive.");
+        }
+
+        if (state == null || state.isBlank()) {
+            throw new IllegalArgumentException("State cannot be null or empty.");
+        }
+
+        if (city == null || city.isBlank()) {
+            throw new IllegalArgumentException("City cannot be null or empty.");
+        }
+
+        if (street == null || street.isBlank()) {
+            throw new IllegalArgumentException("Street cannot be null or empty.");
+        }
+
+        if (number == null || number.isBlank()) {
+            throw new IllegalArgumentException("Number cannot be null or empty.");
+        }
+
+        if (complement == null || complement.isBlank()) {
+            throw new IllegalArgumentException("Complement cannot be null or empty.");
+        }
+
+        if (neighborhood == null || neighborhood.isBlank()) {
+            throw new IllegalArgumentException("Neighborhood cannot be null or empty.");
+        }
+
+        if (zipCode == null || !zipCode.matches("\\d{8}")) {
+            throw new IllegalArgumentException("Zip code must be 8 numeric digits.");
+        }
+
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
+    }
+
+    public static Address fromUpdate(int id, int userId, String state, String city, String street, String number,
+                                     String complement, String neighborhood, String zipCode) {
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
+    }
+
+    public static Address fromDataBase(int id, int userId, String state, String city, String street, String number,
+                                     String complement, String neighborhood, String zipCode) {
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
     }
 
     public void setUserId(int userId) {
