@@ -64,6 +64,35 @@ public class AddressRepository {
         return null;
     }
 
+    public Address findOneUserAddress(int userId, int addressId) {
+        String sql = "SELECT * FROM address WHERE user_id = ? AND address_id = ?";
+        Address address = null;
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            stmt.setInt(1, userId);
+            stmt.setInt(2, addressId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String state = rs.getString("state");
+                    String city = rs.getString("city");
+                    String street = rs.getString("street");
+                    String number = rs.getString("number");
+                    String complement = rs.getString("complement");
+                    String neighborhood = rs.getString("neighborhood");
+                    String zipCode = rs.getString("zip_code");
+                    address = Address.fromDataBase(addressId, userId, state, city, street, number, complement, neighborhood, zipCode);
+                }
+            }
+
+            return address;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void updateAddress(Address address, int addressId) {
         StringBuilder sql = new StringBuilder("UPDATE address SET ");
         List<Object> params = new ArrayList<>();

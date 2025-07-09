@@ -31,6 +31,14 @@ public class AddressController {
         }
     }
 
+    public void showOneAddress(int userId, int addressId) {
+        try {
+            System.out.println(this.service.getOneUserAddress(addressId, userId));
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
     public void updateAddress(int userId, String state, String city, String street, String number,
                               String complement, String neighborhood, String zipCode, int addressId) {
         AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode);

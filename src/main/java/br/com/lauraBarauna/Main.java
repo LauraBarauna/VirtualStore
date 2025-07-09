@@ -49,7 +49,8 @@ public class Main {
                             System.out.println("103 - Atualizar Endereco");
                             System.out.println("104 - Deletar um endereco");
                             System.out.println("105 - Deletar todos os enderecos");
-                            System.out.println("106 - Deslogar");
+                            System.out.println("106 - Mostrar um endereco");
+                            System.out.println("107 - Deslogar");
 
                             opcaoUsuario = scanner.nextInt();
                             scanner.nextLine();
@@ -118,6 +119,13 @@ public class Main {
                                     break;
 
                                 case 106:
+                                    System.out.println("Endereço que quer ver: ");
+                                    int seeAddressId = scanner.nextInt();
+                                    scanner.nextLine();
+                                    addressController.showOneAddress(loggedUser.getId(), seeAddressId);
+                                    break;
+
+                                case 107:
                                     System.out.println("Deslogando...\n");
                                     loggedUser = null;
                                     break;
