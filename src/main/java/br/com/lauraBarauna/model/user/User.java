@@ -30,10 +30,7 @@ public class User {
     }
 
     public boolean login(String rawPassword) {
-       if (this.password.matches(rawPassword)) {
-           return true;
-       }
-       return false;
+        return this.password.matches(rawPassword);
     }
 
 

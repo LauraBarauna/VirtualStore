@@ -132,4 +132,31 @@ public class AddressRepository {
 
     }
 
+    public void deleteOneAddress(int addressId, int userId) {
+        String sql = "DELETE FROM address WHERE id = ? AND user_id = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            stmt.setInt(1, addressId);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAllAddress(int userId) {
+        String sql = "DELETE FROM address WHERE user_id = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

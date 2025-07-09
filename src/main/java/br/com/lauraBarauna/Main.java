@@ -47,7 +47,9 @@ public class Main {
                             System.out.println("101 - Criar Endereço");
                             System.out.println("102 - Listar Enderecos");
                             System.out.println("103 - Atualizar Endereco");
-                            System.out.println("104 - Deslogar");
+                            System.out.println("104 - Deletar um endereco");
+                            System.out.println("105 - Deletar todos os enderecos");
+                            System.out.println("106 - Deslogar");
 
                             opcaoUsuario = scanner.nextInt();
                             scanner.nextLine();
@@ -105,6 +107,17 @@ public class Main {
                                     break;
 
                                 case 104:
+                                    System.out.println("Qual endereco você quer deletar? ");
+                                    int addressId = scanner.nextInt();
+                                    scanner.nextLine();
+                                    addressController.deleteOneAddress(addressId, loggedUser.getId());
+                                    break;
+
+                                case 105: System.out.println("Deslogando...\n");
+                                    addressController.deleteAll(loggedUser.getId());
+                                    break;
+
+                                case 106:
                                     System.out.println("Deslogando...\n");
                                     loggedUser = null;
                                     break;

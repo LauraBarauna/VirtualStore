@@ -42,4 +42,22 @@ public class AddressController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    public void deleteOneAddress(int addressId, int userId) {
+        try {
+            this.service.deleteOneAddress(addressId, userId);
+            System.out.println("Address deleted successfully!");
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void deleteAll(int userId) {
+        try {
+            this.service.deleteAll( userId);
+            System.out.println("All Address deleted successfully!");
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }

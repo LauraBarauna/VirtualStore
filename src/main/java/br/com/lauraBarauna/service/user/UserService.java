@@ -44,58 +44,54 @@ public class UserService {
         return dtos;
     }
 
-    public UserResponseDTO getUserById(int id) {
+    public void doesUserExist(int id) {
         User user = this.repository.findUserById(id);
         if (user == null) {
             throw new RuntimeException("User with id " + id + " not found.");
         }
+
+    }
+
+    public UserResponseDTO getUserById(int id) {
+        doesUserExist(id);
+        User user = this.repository.findUserById(id);
         return entityToDto(user);
     }
 
     public void changeUserName(int id, String newName) {
+        doesUserExist(id);
         User user = this.repository.findUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " not found.");
-        }
         user.setName(newName);
         this.repository.updateUserName(user);
     }
 
     public void changeUserEmail(int id, String newEmail) {
+        doesUserExist(id);
         User user = this.repository.findUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " not found.");
-        }
         Email email = Email.from(newEmail);
         user.setEmail(email);
         this.repository.updateUserEmail(user);
     }
 
     public void changeUserPhone(int id, String newPhone) {
+        doesUserExist(id);
         User user = this.repository.findUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " not found.");
-        }
         Phone phone = Phone.from(newPhone);
         user.setPhone(phone);
         this.repository.updateUserPhone(user);
     }
 
     public void changeUserPassword(int id, String newPassword) {
+        doesUserExist(id);
+
         User user = this.repository.findUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " not found.");
-        }
         Password password = Password.fromPlainText(newPassword);
         user.setPassword(password);
         this.repository.updateUserPassword(user);
     }
 
     public void deleteUser(int id) {
-        User user = this.repository.findUserById(id);
-        if (user == null) {
-            throw new RuntimeException("User with id " + id + " not found.");
-        }
+        doesUserExist(id);
         this.repository.deleteUserById(id);
     }
 
