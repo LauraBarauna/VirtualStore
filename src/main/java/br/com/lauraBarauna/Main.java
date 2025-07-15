@@ -72,11 +72,13 @@ public class Main {
                                     String bairro = scanner.nextLine();
                                     System.out.println("CEP: ");
                                     String cep = scanner.nextLine();
+                                    System.out.println("Etiqueta do endereço: ");
+                                    String etiqueta = scanner.nextLine();
 
                                     addressController.createAddress(
                                             loggedUser.getId(),
                                             estado, cidade, rua, numero,
-                                            complemento, bairro, cep
+                                            complemento, bairro, cep, etiqueta
                                     );
                                     System.out.println("Endereço criado com sucesso!\n");
                                     break;
@@ -103,8 +105,10 @@ public class Main {
                                     System.out.println("Address ID: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
+                                    System.out.println("Etiqueta do endereço: ");
+                                    etiqueta = scanner.nextLine();
                                     addressController.updateAddress(loggedUser.getId(), estado, cidade, rua, numero,
-                                            complemento, bairro, cep, id);
+                                            complemento, bairro, cep, etiqueta, id);
                                     break;
 
                                 case 104:

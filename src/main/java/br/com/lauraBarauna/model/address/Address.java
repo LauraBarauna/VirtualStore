@@ -12,10 +12,11 @@ public class Address {
     private String complement;
     private String neighborhood;
     private String zipCode;
+    private String label;
     private LocalDateTime createdAt;
 
     private Address(int id, int userId, String state, String city, String street, String number,
-                   String complement, String neighborhood, String zipCode) {
+                   String complement, String neighborhood, String zipCode, String label) {
 
         this.id = id;
         this.userId = userId;
@@ -26,10 +27,11 @@ public class Address {
         this.complement = complement;
         this.neighborhood = neighborhood;
         this.zipCode = zipCode;
+        this.label = label;
     }
 
     public static Address fromCreation(int id, int userId, String state, String city, String street, String number,
-                                       String complement, String neighborhood, String zipCode) {
+                                       String complement, String neighborhood, String zipCode, String label) {
 
         if (userId <= 0) {
             throw new IllegalArgumentException("User ID must be positive.");
@@ -63,17 +65,21 @@ public class Address {
             throw new IllegalArgumentException("Zip code must be 8 numeric digits.");
         }
 
-        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
+        if (label == null || label.isBlank()) {
+            throw new IllegalArgumentException("Label cannot be null or empty.");
+        }
+
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode, label);
     }
 
     public static Address fromUpdate(int id, int userId, String state, String city, String street, String number,
-                                     String complement, String neighborhood, String zipCode) {
-        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
+                                     String complement, String neighborhood, String zipCode, String label) {
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode, label);
     }
 
     public static Address fromDataBase(int id, int userId, String state, String city, String street, String number,
-                                     String complement, String neighborhood, String zipCode) {
-        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode);
+                                     String complement, String neighborhood, String zipCode, String label) {
+        return new Address(id, userId, state, city, street, number, complement, neighborhood, zipCode, label);
     }
 
     public void setUserId(int userId) {
@@ -166,6 +172,10 @@ public class Address {
 
     public String getZipCode() {
         return zipCode;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -10,9 +10,10 @@ public class AddresRequestDTO {
     private String complement;
     private String neighborhood;
     private String zipCode;
+    private String label;
 
     public AddresRequestDTO(int userId, String state, String city, String street, String number,
-                            String complement, String neighborhood, String zipCode) {
+                            String complement, String neighborhood, String zipCode, String label) {
 
         this.userId = userId;
         this.state = state;
@@ -22,6 +23,7 @@ public class AddresRequestDTO {
         this.complement = complement;
         this.neighborhood = neighborhood;
         this.zipCode = zipCode;
+        this.label = label;
     }
 
     public int getUserId() {
@@ -54,5 +56,9 @@ public class AddresRequestDTO {
 
     public String getZipCode() {
         return zipCode;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

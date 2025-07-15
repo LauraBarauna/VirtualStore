@@ -8,9 +8,9 @@ public class AddressController {
     AddressService service = new AddressService();
 
     public void createAddress(int userId, String state, String city, String street, String number,
-                              String complement, String neighborhood, String zipCode) {
+                              String complement, String neighborhood, String zipCode, String label) {
 
-        AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode);
+        AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode, label);
 
         try {
             this.service.createAddress(dto);
@@ -39,9 +39,17 @@ public class AddressController {
         }
     }
 
+    public void showOneAddressByLabel(String label, int userId) {
+        try {
+            System.out.println(this.service.getOneUserAddressByLabel(label, userId));
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
     public void updateAddress(int userId, String state, String city, String street, String number,
-                              String complement, String neighborhood, String zipCode, int addressId) {
-        AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode);
+                              String complement, String neighborhood, String zipCode, String label, int addressId) {
+        AddresRequestDTO dto = new AddresRequestDTO(userId, state, city, street, number, complement, neighborhood, zipCode, label);
 
         try {
             this.service.updateAddress(dto, addressId);

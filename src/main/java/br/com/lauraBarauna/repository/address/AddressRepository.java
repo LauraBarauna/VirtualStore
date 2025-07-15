@@ -13,7 +13,7 @@ import java.util.List;
 public class AddressRepository {
 
     public void addAddress(Address address) {
-        String sql = "INSERT INTO address (user_id, street, number, complement, neighborhood, city, state, zip_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO address (user_id, street, number, complement, neighborhood, city, state, zip_code, label) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = MySQLConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -26,6 +26,7 @@ public class AddressRepository {
             stmt.setString(6, address.getCity());
             stmt.setString(7, address.getState());
             stmt.setString(8, address.getZipCode());
+            stmt.setString(9, address.getLabel());
 
             stmt.executeUpdate();
 
@@ -52,7 +53,8 @@ public class AddressRepository {
                     String complement = rs.getString("complement");
                     String neighborhood = rs.getString("neighborhood");
                     String zipCode = rs.getString("zip_code");
-                    addresses.add(Address.fromDataBase(id, userId, state, city, street, number, complement, neighborhood, zipCode));
+                    String label = rs.getString("label");
+                    addresses.add(Address.fromDataBase(id, userId, state, city, street, number, complement, neighborhood, zipCode, label));
                 }
             }
 
@@ -81,7 +83,38 @@ public class AddressRepository {
                     String complement = rs.getString("complement");
                     String neighborhood = rs.getString("neighborhood");
                     String zipCode = rs.getString("zip_code");
-                    address = Address.fromDataBase(addressId, userId, state, city, street, number, complement, neighborhood, zipCode);
+                    String label = rs.getString("label");
+                    address = Address.fromDataBase(addressId, userId, state, city, street, number, complement, neighborhood, zipCode, label);
+                }
+            }
+
+            return address;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Address findOneUserAddresByLabel(String label, int userId) {
+        String sql = "SELECT * FROM address WHERE label = ? AND user_id = ?";
+        Address address = null;
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            stmt.setString(1, label);
+            stmt.setInt(2, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int addressId = rs.getInt("address_id");
+                    String state = rs.getString("state");
+                    String city = rs.getString("city");
+                    String street = rs.getString("street");
+                    String number = rs.getString("number");
+                    String complement = rs.getString("complement");
+                    String neighborhood = rs.getString("neighborhood");
+                    String zipCode = rs.getString("zip_code");
+                    address = Address.fromDataBase(addressId, userId, state, city, street, number, complement, neighborhood, zipCode, label);
                 }
             }
 
@@ -130,6 +163,11 @@ public class AddressRepository {
         if (address.getZipCode() != null && !address.getZipCode().isBlank()) {
             sql.append("zip_code = ?, ");
             params.add(address.getZipCode());
+        }
+
+        if (address.getLabel() != null && !address.getLabel().isBlank()) {
+            sql.append("label = ?, ");
+            params.add(address.getLabel());
         }
 
         // Nenhum campo pra atualizar
