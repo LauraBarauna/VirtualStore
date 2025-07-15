@@ -170,10 +170,8 @@ public class AddressRepository {
             params.add(address.getLabel());
         }
 
-        // Nenhum campo pra atualizar
         if (params.isEmpty()) {
-            System.out.println("Nada para atualizar.");
-            return;
+            throw new RuntimeException("Nothing to update");
         }
 
         // Remove a última vírgula e espaço

@@ -15,11 +15,17 @@ public class UserService {
 
     private UserRepository repository = new UserRepository();
 
-    public User dtoToEntity(UserRequestDTO dto) {
+    public User dtoToEntityCreation(UserRequestDTO dto) {
         Email email = Email.from(dto.getEmail());
         Phone phone = Phone.from(dto.getPhone());
         Password password = Password.fromPlainText(dto.getPassword());
-        return new User (dto.getName(), email, password, phone, 0);
+        return User.fromCreation(dto.getName(), email, password, phone);
+    }
+
+    public User dtoToEntityUpdate(UserRequestDTO dto) {
+        Email email = Email.fromDatabase(dto.getEmail());
+        Phone phone = Phone.fromDataBase(dto.getPhone());
+        return User.fromUpdate(dto.getName(), email, null, phone);
     }
 
     public UserResponseDTO entityToDto(User user) {
@@ -27,7 +33,7 @@ public class UserService {
     }
 
     public void createUser(UserRequestDTO userDto) {
-        this.repository.addUser(dtoToEntity(userDto));
+        this.repository.addUser(dtoToEntityCreation(userDto));
     }
 
     public List<UserResponseDTO> getAllUsers() {
@@ -58,27 +64,9 @@ public class UserService {
         return entityToDto(user);
     }
 
-    public void changeUserName(int id, String newName) {
+    public void changeUser(UserRequestDTO userDto, int id) {
         doesUserExist(id);
-        User user = this.repository.findUserById(id);
-        user.setName(newName);
-        this.repository.updateUserName(user);
-    }
-
-    public void changeUserEmail(int id, String newEmail) {
-        doesUserExist(id);
-        User user = this.repository.findUserById(id);
-        Email email = Email.from(newEmail);
-        user.setEmail(email);
-        this.repository.updateUserEmail(user);
-    }
-
-    public void changeUserPhone(int id, String newPhone) {
-        doesUserExist(id);
-        User user = this.repository.findUserById(id);
-        Phone phone = Phone.from(newPhone);
-        user.setPhone(phone);
-        this.repository.updateUserPhone(user);
+        this.repository.updateUser(dtoToEntityUpdate(userDto), id);
     }
 
     public void changeUserPassword(int id, String newPassword) {

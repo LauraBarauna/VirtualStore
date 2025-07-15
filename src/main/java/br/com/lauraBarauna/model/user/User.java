@@ -14,19 +14,40 @@ public class User {
     private Phone phone;
     private LocalDateTime createdAt;
 
-    public User(String name, Email email, Phone phone, int id) {
+    private User(int id, String name, Email email, Password password, Phone phone) {
+        this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.phone = phone;
-        this.id = id;
     }
 
-    public User(String name, Email email, Password password, Phone phone, int id) {
-        setName(name);
-        setEmail(email);
-        setPassword(password);
-        setPhone(phone);
-        this.id = id;
+    public static User fromCreation (String name, Email email, Password password, Phone phone) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        }
+
+        if (email == null) {
+            throw new IllegalArgumentException("E-mail cannot be null.");
+        }
+
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null.");
+        }
+
+        if (phone == null) {
+            throw new IllegalArgumentException("Phone cannot be null.");
+        }
+
+        return new User(0, name, email, password, phone);
+    }
+
+    public static User fromUpdate (String name, Email email, Password password, Phone phone) {
+        return new User(0, name, email, password, phone);
+    }
+
+    public static User fromDataBase (int id, String name, Email email, Password password, Phone phone) {
+        return new User(id, name, email, password, phone);
     }
 
     public boolean login(String rawPassword) {

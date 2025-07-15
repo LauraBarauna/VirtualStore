@@ -50,7 +50,8 @@ public class Main {
                             System.out.println("104 - Deletar um endereco");
                             System.out.println("105 - Deletar todos os enderecos");
                             System.out.println("106 - Mostrar um endereco");
-                            System.out.println("107 - Deslogar");
+                            System.out.println("107 - Atualizar usuário");
+                            System.out.println("108 - Deslogar");
 
                             opcaoUsuario = scanner.nextInt();
                             scanner.nextLine();
@@ -130,6 +131,16 @@ public class Main {
                                     break;
 
                                 case 107:
+                                    System.out.println("Nome do usuário: ");
+                                    String nome = scanner.nextLine();
+                                    System.out.println("E-mail novo: ");
+                                    String emailNovo = scanner.nextLine();
+                                    System.out.println("Telefone novo: ");
+                                    String telefone = scanner.nextLine();
+                                    userController.updateUser(loggedUser.getId(), nome,  emailNovo, telefone);
+                                    break;
+
+                                case 108:
                                     System.out.println("Deslogando...\n");
                                     loggedUser = null;
                                     break;

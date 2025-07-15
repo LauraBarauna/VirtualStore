@@ -20,7 +20,7 @@ public class Phone {
     }
 
     public static Phone fromDataBase (String storedPhone) {
-        return Phone.from(storedPhone);
+        return new Phone(storedPhone);
     }
 
     private static boolean isValid(String number) {

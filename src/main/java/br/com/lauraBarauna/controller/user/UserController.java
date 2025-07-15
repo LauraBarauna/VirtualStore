@@ -38,10 +38,11 @@ public class UserController {
         }
     }
 
-    public void updateUserName(int id, String newName) {
+    public void updateUser(int id, String name, String email, String phone) {
         try {
-            this.service.changeUserName(id, newName);
-            System.out.println("User name updated successfully!");
+            UserRequestDTO dto = new UserRequestDTO(name, null, email, phone);
+            this.service.changeUser(dto, id);
+            System.out.println("User updated successfully!");
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -51,24 +52,6 @@ public class UserController {
         try {
             this.service.changeUserPassword(id, newPassword);
             System.out.println("User password updated successfully!");
-        } catch (RuntimeException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    public void updatePhone(int id, String newPhone) {
-        try {
-            this.service.changeUserPhone(id, newPhone);
-            System.out.println("User phone updated successfully!");
-        } catch (RuntimeException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    public void updateEmail(int id, String newEmail) {
-        try {
-            this.service.changeUserEmail(id, newEmail);
-            System.out.println("User e-mail updated successfully!");
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }

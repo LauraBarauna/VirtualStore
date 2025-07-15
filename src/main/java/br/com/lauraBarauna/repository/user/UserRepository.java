@@ -50,7 +50,7 @@ public class UserRepository {
                 String phone = rs.getString("phone");
                 Email emailObj = Email.fromDatabase(email);
                 Phone phoneObj = Phone.fromDataBase(phone);
-                users.add(new User(name, emailObj, phoneObj, id));
+                users.add(User.fromDataBase(id, name, emailObj, null, phoneObj));
             }
             return users;
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class UserRepository {
                     String phone = rs.getString("phone");
                     Email emailObj = Email.fromDatabase(email);
                     Phone phoneObj = Phone.fromDataBase(phone);
-                    return new User(name, emailObj, phoneObj, id);
+                    return User.fromDataBase(id, name, emailObj, null, phoneObj);
                 }
             }
 
@@ -85,52 +85,45 @@ public class UserRepository {
     }
 
     // UPDATE
-    public void updateUserName(User user) {
-        String sql = "UPDATE users SET name = ? WHERE id = ?";
+
+    public void updateUser(User user, int id) {
+        StringBuilder sql = new StringBuilder("UPDATE users SET ");
+        List<Object> params = new ArrayList<>();
+
+        if (user.getName() != null && !user.getName().isEmpty()) {
+            sql.append("name = ?, ");
+            params.add(user.getName());
+        }
+
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            sql.append("email = ?, ");
+            params.add(user.getEmail());
+        }
+
+        if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+            sql.append("phone = ?, ");
+            params.add(user.getPhone());
+        }
+
+        sql.setLength(sql.length() - 2);
+
+        sql.append(" WHERE id = ?");
+        params.add(id);
 
         try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
 
-            stmt.setString(1, user.getName());
-            stmt.setInt(2, user.getId());
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
 
             stmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
 
-    public void updateUserEmail(User user) {
-        String sql = "UPDATE users SET email = ? WHERE id = ?";
 
-        try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, user.getEmail());
-            stmt.setInt(2, user.getId());
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateUserPhone(User user) {
-        String sql = "UPDATE users SET phone = ? WHERE id = ?";
-
-        try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, user.getPhone());
-            stmt.setInt(2, user.getId());
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void updateUserPassword(User user) {
@@ -178,7 +171,7 @@ public class UserRepository {
                     Password savedPassword =  Password.fromHashed(rs.getString("password"));
                     String name = rs.getString("name");
                     int id = rs.getInt("id");
-                    return new User(name, emailObj, savedPassword, phoneObj, id);
+                    return User.fromDataBase(id, name, emailObj, savedPassword, phoneObj);
 
                 }
             }
