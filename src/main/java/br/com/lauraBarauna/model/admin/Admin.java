@@ -1,72 +1,41 @@
 package br.com.lauraBarauna.model.admin;
 
-import br.com.lauraBarauna.model.common.Email;
-import br.com.lauraBarauna.model.common.Password;
-import br.com.lauraBarauna.model.common.Phone;
 import br.com.lauraBarauna.model.user.User;
 
-import java.time.LocalDateTime;
-
 public class Admin {
-    private int id;
-    private String name;
-    private Email email;
-    private Password password;
-    private Phone phone;
-    private LocalDateTime createdAt;
+    private User user;
+    private String additionalRole;
 
-    private Admin(int id, String name, Email email, Password password, Phone phone) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
+    private Admin(User user, String additionalRole) {
+        this.user = user;
+        this.additionalRole = additionalRole;
     }
 
-    public Admin fromCreation(String name, Email email, Password password, Phone phone) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
+    public static Admin fromCreation(User user, String additionalRole) {
+        if (user == null) {
+            throw new IllegalArgumentException("User  cannot be null.");
         }
 
-        if (email == null) {
-            throw new IllegalArgumentException("E-mail cannot be null.");
+        if (additionalRole == null || additionalRole.isBlank()) {
+            throw new IllegalArgumentException("Additional Role cannot be null or empty.");
         }
 
-        if (password == null) {
-            throw new IllegalArgumentException("Password cannot be null.");
-        }
-
-        if (phone == null) {
-            throw new IllegalArgumentException("Phone cannot be null.");
-        }
-        return new Admin(0, name, email, password, phone);
+        return new Admin(user, additionalRole);
     }
 
-    public Admin fromUpdate(int id, String name, Email email, Password password, Phone phone) {
-        return new Admin(id, name, email, password, phone);
+    public static Admin fromUpdate (User user, String additionalRole) {
+        return new Admin(user, additionalRole);
     }
 
-    public Admin fromDataBase (int id, String name, Email email, Password password, Phone phone) {
-        return new Admin(id, name, email, password, phone);
+    public static Admin fromDataBase (User user, String additionalRole) {
+        return new Admin(user, additionalRole);
     }
 
-    public int getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    public Password getPassword() {
-        return password;
-    }
-
-    public Phone getPhone() {
-        return phone;
+    public String getAdditionalRole() {
+        return additionalRole;
     }
 }

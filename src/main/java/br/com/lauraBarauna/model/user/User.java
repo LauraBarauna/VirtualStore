@@ -14,7 +14,7 @@ public class User {
     private Phone phone;
     private LocalDateTime createdAt;
 
-    private User(int id, String name, Email email, Password password, Phone phone) {
+    protected User(int id, String name, Email email, Password password, Phone phone) {
         this.id = id;
         this.name = name;
         this.email = email;

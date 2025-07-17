@@ -64,6 +64,14 @@ public class UserService {
         return entityToDto(user);
     }
 
+    public User getUserByEmail(String email) {
+        User user = this.repository.findUserByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User with email " + email + " not found.");
+        }
+        return user;
+    }
+
     public void changeUser(UserRequestDTO userDto, int id) {
         doesUserExist(id);
         this.repository.updateUser(dtoToEntityUpdate(userDto), id);
@@ -84,11 +92,8 @@ public class UserService {
     }
 
     public UserResponseDTO loginUser(String email, String password) {
-        User user = this.repository.findUserByEmail(email);
+        User user = getUserByEmail(email);
 
-        if (user == null) {
-            throw new RuntimeException("Email " + email + " not found.");
-        }
         if (!user.login(password)) {
             throw new RuntimeException("Invalid password.");
         }
