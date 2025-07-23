@@ -5,12 +5,14 @@ public class AdminResponseDTO {
     private String name;
     private String email;
     private String phone;
+    private String additionalRole;
 
-    public AdminResponseDTO(int id, String name, String email, String phone) {
+    public AdminResponseDTO(int id, String name, String email, String phone, String additionalRole) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.additionalRole = additionalRole;
     }
 
     @Override
@@ -20,6 +22,7 @@ public class AdminResponseDTO {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", additionalRole='" + additionalRole + '\'' +
                 '}';
     }
 }
