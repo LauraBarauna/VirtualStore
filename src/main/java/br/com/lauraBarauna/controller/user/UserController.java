@@ -8,7 +8,11 @@ import java.util.List;
 
 public class UserController {
 
-    UserService service = new UserService();
+    UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     public void createNewUser(String name, String password, String email, String phone) {
         try {

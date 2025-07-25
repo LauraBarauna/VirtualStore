@@ -3,13 +3,14 @@ package br.com.lauraBarauna;
 import br.com.lauraBarauna.controller.address.AddressController;
 import br.com.lauraBarauna.controller.user.UserController;
 import br.com.lauraBarauna.dto.user.UserResponseDTO;
+import br.com.lauraBarauna.service.ServiceFactory;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         // Controllers
-        UserController userController = new UserController();
+        UserController userController = ServiceFactory.createUserController();
         AddressController addressController = new AddressController();
 
         Scanner scanner = new Scanner(System.in);
@@ -39,6 +40,13 @@ public class Main {
 
                     if (loggedUser != null) {
                         System.out.println("Login realizado com sucesso!\n");
+
+                        if (loggedUser.getAdmin()) {
+                            System.out.println("Você é um ADMIN!");
+                        } else {
+                            System.out.println("Você não é um ADMIN!");
+                        }
+
 
                         // Menu do usuário logado
                         int opcaoUsuario;

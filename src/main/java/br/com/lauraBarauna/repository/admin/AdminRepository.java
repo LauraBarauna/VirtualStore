@@ -47,6 +47,26 @@ public class AdminRepository {
         }
     }
 
+    public boolean adminExistsByUserId(int user_id) {
+        String sql = "SELECT EXISTS (SELECT 1 FROM admins WHERE user_id = ?) AS exists_flag";
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1,user_id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("exists_flag");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public Admin findAdminById(Admin admin) {
         String sql =
                 "SELECT a.user_id AS admin_id, u.name, u.email, u.phone, a.additional_role" +

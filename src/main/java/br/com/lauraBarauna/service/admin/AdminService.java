@@ -13,7 +13,11 @@ import java.util.List;
 
 public class AdminService {
     private final AdminRepository REPOSITORY = new AdminRepository();
-    private final UserService USER_SERVICE = new UserService();
+    private  UserService userService;
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public AdminResponseDTO adminToDTO(Admin admin) {
         return new AdminResponseDTO(admin.getUser().getId(), admin.getUser().getName(), admin.getUser().getEmail(),
@@ -21,16 +25,21 @@ public class AdminService {
     }
 
     public void createAdmin(AdminRequestDTO adminDTO) {
-        this.REPOSITORY.addAdmin(Admin.fromCreation(this.USER_SERVICE.getUserByEmail(adminDTO.getEmail()), adminDTO.getAdditionalRole()));
+        this.REPOSITORY.addAdmin(Admin.fromCreation(this.userService.getUserByEmail(adminDTO.getEmail()), adminDTO.getAdditionalRole()));
     }
 
     public void updateAdmin(AdminRequestDTO adminDTO) {
-        User user = this.USER_SERVICE.getUserByEmail(adminDTO.getEmail());
+        User user = this.userService.getUserByEmail(adminDTO.getEmail());
         this.REPOSITORY.updateAdmin(Admin.fromUpdate(user, adminDTO.getAdditionalRole()));
     }
 
+    public boolean doesAdminExist(String email) {
+        User user = this.userService.getUserByEmail(email);
+        return this.REPOSITORY.adminExistsByUserId(user.getId());
+    }
+
     public AdminResponseDTO getAdminById(AdminRequestDTO adminDTO) {
-        User user = this.USER_SERVICE.getUserByEmail(adminDTO.getEmail());
+        User user = this.userService.getUserByEmail(adminDTO.getEmail());
         return adminToDTO(this.REPOSITORY.findAdminById(Admin.fromDataBase(user, adminDTO.getAdditionalRole())));
     }
 
@@ -51,7 +60,7 @@ public class AdminService {
     }
 
     public void deleteAdminById(String email) {
-        User user = this.USER_SERVICE.getUserByEmail(email);
+        User user = this.userService.getUserByEmail(email);
         this.REPOSITORY.deleteOneAdmin(user.getId());
     }
 

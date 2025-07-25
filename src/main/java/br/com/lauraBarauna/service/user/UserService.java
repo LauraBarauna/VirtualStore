@@ -7,6 +7,7 @@ import br.com.lauraBarauna.model.common.Password;
 import br.com.lauraBarauna.model.common.Phone;
 import br.com.lauraBarauna.model.user.User;
 import br.com.lauraBarauna.repository.user.UserRepository;
+import br.com.lauraBarauna.service.admin.AdminService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,11 @@ import java.util.List;
 public class UserService {
 
     private UserRepository repository = new UserRepository();
+     private AdminService adminService;
+
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     public User dtoToEntityCreation(UserRequestDTO dto) {
         Email email = Email.from(dto.getEmail());
@@ -29,7 +35,11 @@ public class UserService {
     }
 
     public UserResponseDTO entityToDto(User user) {
-        return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone());
+        return UserResponseDTO.fromUser(user);
+    }
+
+    public UserResponseDTO entityToLoggedDTO(User user, boolean isAdmin) {
+        return UserResponseDTO.logged(user, isAdmin);
     }
 
     public void createUser(UserRequestDTO userDto) {
@@ -98,7 +108,9 @@ public class UserService {
             throw new RuntimeException("Invalid password.");
         }
 
-        return entityToDto(user);
+        boolean isAdmin = this.adminService.doesAdminExist(email);
+
+        return entityToLoggedDTO(user, isAdmin);
     }
 
 }
