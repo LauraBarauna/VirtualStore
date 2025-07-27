@@ -25,7 +25,7 @@ public class AdminService {
     }
 
     public void superAdmin(AdminRequestDTO adminRequestDTO) {
-        Admin admin = this.REPOSITORY.findAdminById(Admin.fromCreation(this.userService.getUserByEmail(adminDTO.getEmail()), adminDTO.getAdditionalRole()));
+        Admin admin = this.REPOSITORY.findAdminById(Admin.fromCreation(this.userService.getUserByEmail(adminRequestDTO.getEmail()), adminRequestDTO.getAdditionalRole()));
 
         if (!admin.getAdditionalRole().equals("SUPER_ADMIN")) {
             throw new RuntimeException("You don't have permission to create a admin.");
