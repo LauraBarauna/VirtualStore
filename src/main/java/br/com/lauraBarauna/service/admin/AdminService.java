@@ -24,11 +24,24 @@ public class AdminService {
                 admin.getUser().getPhone(), admin.getAdditionalRole());
     }
 
+    public void superAdmin(AdminRequestDTO adminRequestDTO) {
+        Admin admin = this.REPOSITORY.findAdminById(Admin.fromCreation(this.userService.getUserByEmail(adminDTO.getEmail()), adminDTO.getAdditionalRole()));
+
+        if (!admin.getAdditionalRole().equals("SUPER_ADMIN")) {
+            throw new RuntimeException("You don't have permission to create a admin.");
+        }
+    }
+
     public void createAdmin(AdminRequestDTO adminDTO) {
+        superAdmin(adminDTO);
         this.REPOSITORY.addAdmin(Admin.fromCreation(this.userService.getUserByEmail(adminDTO.getEmail()), adminDTO.getAdditionalRole()));
     }
 
     public void updateAdmin(AdminRequestDTO adminDTO) {
+        superAdmin(adminDTO);
+        if (!doesAdminExist(adminDTO.getEmail())) {
+            throw new RuntimeException("Admin not found.");
+        }
         User user = this.userService.getUserByEmail(adminDTO.getEmail());
         this.REPOSITORY.updateAdmin(Admin.fromUpdate(user, adminDTO.getAdditionalRole()));
     }
@@ -39,6 +52,9 @@ public class AdminService {
     }
 
     public AdminResponseDTO getAdminById(AdminRequestDTO adminDTO) {
+        if (!doesAdminExist(adminDTO.getEmail())) {
+            throw new RuntimeException("Admin not found.");
+        }
         User user = this.userService.getUserByEmail(adminDTO.getEmail());
         return adminToDTO(this.REPOSITORY.findAdminById(Admin.fromDataBase(user, adminDTO.getAdditionalRole())));
     }
@@ -60,6 +76,9 @@ public class AdminService {
     }
 
     public void deleteAdminById(String email) {
+        if (!doesAdminExist(email)) {
+            throw new RuntimeException("Admin not found.");
+        }
         User user = this.userService.getUserByEmail(email);
         this.REPOSITORY.deleteOneAdmin(user.getId());
     }
