@@ -31,8 +31,8 @@ public class Store {
         return new Store(0, user_id, name, cnpj, description);
     }
 
-    public static Store fromDataBase (int user_id, String name, String cnpj, String description) {
-        return new Store(0, user_id, name, cnpj, description);
+    public static Store fromDataBase (int id, String name, String cnpj, String description) {
+        return new Store(id, 0, name, cnpj, description);
     }
 
     public static Store fromUpdate (int user_id, String name, String cnpj, String description) {
