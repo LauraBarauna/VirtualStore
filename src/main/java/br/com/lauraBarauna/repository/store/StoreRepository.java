@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StoreRepository {
 
@@ -40,17 +42,15 @@ public class StoreRepository {
     public Store findStoreById(int id) {
         String sql = "SELECT id, name, cnpj, description FROM stores WHERE id = ?";
         try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String name = rs.getString("name");
                     String cnpj = rs.getString("cnpj");
                     String description = rs.getString("description");
-                    Store store = Store.fromDataBase(id, name, cnpj, description);
-                    return store;
+                    return Store.fromDataBase(id, name, cnpj, description);
                 }
             }
 
@@ -58,6 +58,56 @@ public class StoreRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Store> findAllStores() {
+        String sql = "SELECT id, name, cnpj, description FROM stores";
+        List<Store> stores = new ArrayList<>();
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String cnpj = rs.getString("cnpj");
+                String description = rs.getString("description");
+                stores.add(Store.fromDataBase(id, name, cnpj, description));
+            }
+
+            return stores;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateStore(Store store, int id) {
+        StringBuilder sql = new StringBuilder("UPDATE stores SET ");
+        List<Object> params = new ArrayList<>();
+
+        if (store.getName() != null && !store.getName().isBlank()) {
+            sql.append("name = ?");
+            params.add(store.getName());
+        }
+
+        if (store.getCnpj() != null && !store.getCnpj().isBlank()) {
+            sql.append("cnpj = ?");
+            params.add(store.getCnpj());
+        }
+
+        if (store.getDescription() != null && !store.getDescription().isBlank()) {
+            sql.append("description = ?");
+            params.add(store.getDescription());
+        }
+
+        sql.setLength(sql.length() - 2);
+
+        sql.append(" WHERE id = ?");
+        params.add(id);
+
+
     }
 
 
