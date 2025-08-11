@@ -12,14 +12,24 @@ import java.util.List;
 
 public class StoreRepository {
 
-    public void modelo() {
-        try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement()) {
+    public boolean userHaveStore(int id) {
+        String sql = "SELECT EXISTS (SELECT 1 FROM stores WHERE user_id = ?) AS exists_flag";
 
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1,id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("exists_flag");
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void addStore(Store store) {
@@ -83,7 +93,7 @@ public class StoreRepository {
         return null;
     }
 
-    public void updateStore(Store store, int id) {
+    public void updateStore(Store store) {
         StringBuilder sql = new StringBuilder("UPDATE stores SET ");
         List<Object> params = new ArrayList<>();
 
@@ -105,7 +115,20 @@ public class StoreRepository {
         sql.setLength(sql.length() - 2);
 
         sql.append(" WHERE id = ?");
-        params.add(id);
+        params.add(store.getId());
+
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }

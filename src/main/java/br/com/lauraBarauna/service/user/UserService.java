@@ -8,6 +8,7 @@ import br.com.lauraBarauna.model.common.Phone;
 import br.com.lauraBarauna.model.user.User;
 import br.com.lauraBarauna.repository.user.UserRepository;
 import br.com.lauraBarauna.service.admin.AdminService;
+import br.com.lauraBarauna.service.store.StoreService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,15 @@ import java.util.List;
 public class UserService {
 
     private UserRepository repository = new UserRepository();
-     private AdminService adminService;
+    private AdminService adminService;
+    private StoreService storeService;
 
     public void setAdminService(AdminService adminService) {
         this.adminService = adminService;
+    }
+
+    public void setStoreService(StoreService storeService) {
+        this.storeService = storeService;
     }
 
     public User dtoToEntityCreation(UserRequestDTO dto) {
@@ -38,8 +44,8 @@ public class UserService {
         return UserResponseDTO.fromUser(user);
     }
 
-    public UserResponseDTO entityToLoggedDTO(User user, boolean isAdmin) {
-        return UserResponseDTO.logged(user, isAdmin);
+    public UserResponseDTO entityToLoggedDTO(User user, boolean isAdmin, boolean haveStore) {
+        return UserResponseDTO.logged(user, isAdmin, haveStore);
     }
 
     public void createUser(UserRequestDTO userDto) {
@@ -109,8 +115,9 @@ public class UserService {
         }
 
         boolean isAdmin = this.adminService.doesAdminExist(email);
+        boolean haveStore = this.storeService.doesUserHaveStore(email);
 
-        return entityToLoggedDTO(user, isAdmin);
+        return entityToLoggedDTO(user, isAdmin, haveStore);
     }
 
 }
